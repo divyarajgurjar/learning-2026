@@ -1,11 +1,14 @@
-# learning-2026
-Welcome to repository of my learning of 2026.
+# Learning 2026
 
-## What's in the repository ?
-1. Assignments from various learning sources
-2. Projects
+Welcome to the repository documenting my learning journey in 2026.
 
-## Connect With me on 
-![Connect on linkedIN](https://www.linkedin.com/in/divyarajsingh-dev/)
-![Connect on Hashnode](https://divyarajgurjar.hashnode.dev/)
-![Connect on X](https://x.com/DevDivyaraj)
+## What's in the Repository
+
+1. Assignments from various learning sources  
+2. Projects  
+
+## Connect With Me
+
+- [LinkedIn](https://www.linkedin.com/in/divyarajsingh-dev/)
+- [Hashnode](https://divyarajgurjar.hashnode.dev/)
+- [X (Twitter)](https://x.com/DevDivyaraj)
