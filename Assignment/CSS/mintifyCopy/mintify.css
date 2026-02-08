@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter';
+}
+header{
+    width: 100%;
+    padding-inline: 24px;
+    padding-block: 16px;
+    margin-inline: auto;
+    z-index: 50;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+}
+
+header > div{
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+    position: relative;
+}
+
+#nav-container{
+    width: 100%;
+    margin: auto;
+    max-width: 66rem;
+    display: flex;
+    align-items: center;
+}
+
+#nav-box{
+    display: flex;
+    align-items: center;
+    column-gap: 164px;
+}
+
+#logo-box > img {
+    height: 25px;
+    width: 105px;
+}
+
+#navbar{
+    display: flex;
+    flex:1 1 0;
+    justify-content: center;
+    align-items: center;
+    max-width: max-content;
+    width: 100%;
+    position: relative;
+}
+
+#nav-div{
+    position: relative;
+}
+
+#nav-list{
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+
+.nav-item{
+    position: relative;
+}
+.nav-item > a{
+    font-size: 15px;
+    line-height: 150%;
+    font-weight: 500;
+    padding-block: 4px;
+    padding-inline: 12px;
+    border-radius: 40px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: max-content;
+    height: 32px;
+    text-decoration: none;
+    outline-offset: 2px;
+    
+}
+
+#nav-buttons-container{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#nav-buttons{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#nav-buttons > a {
+    outline-offset: 2px;
+    white-space: nowrap;
+    font-weight: 500;
+    font-size: 15px;
+    padding-inline: 12px;
+    padding-block: 4.5px;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 1px;
+    gap: 6px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+    flex-shrink: 0;
+    text-decoration: none;
+    background-color: white;
+}
+#nav-buttons-sales{
+    color: black;
+}
+
+#nav-buttons-start{
+    color: black;
+    
+}
+
+#hero-section{
+    isolation: isolate;
+    position: relative;
+}
+
+#hero-bg-box{
+    background: url('https://www.mintlify.com/hero/bg-light.svg');
+    z-index: -1;
+    background-position: -50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: -10rem;
+    pointer-events: none;
+}
+#hero-autopilot-link{
+    padding: 4px;
+    background-color: lab(2.42579 -0.165291 -0.470081 / 0.15);
+    border-radius: 60px;
+    gap: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: fit-content;
+    left: 50%;
+    top: 30px;
+    line-height: 1.5;
+}
+
+#hero-autopilot-link > span{
+    text-transform: uppercase;
+    color: white;
+    font-weight: 500;
+    padding-block: 2px;
+    padding-inline: 8px;
+    background-color: lab(51.3415% -41.5657 15.3527);
+    border-radius: 60px;
+}
+
