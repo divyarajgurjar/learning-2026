@@ -411,7 +411,7 @@ box-shadow: 0 0 transparent,  0 0 transparent, 0 0 transparent, 0 0 transparent,
 
 #enterprise{
     margin-top: 2rem;
-    padding-top: 6rem;
+    padding-top: 4rem;
     background-color: lab(2.42579 -0.165291 -0.470081 / 0.03);
     display: flex;
     align-items: center;
