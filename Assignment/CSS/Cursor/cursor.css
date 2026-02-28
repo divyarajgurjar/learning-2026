@@ -1,0 +1,241 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter';
+}
+
+header{
+    background-color: rgb(20, 18, 11);
+    display: flex;
+    justify-content: center;
+}
+
+header > div {
+    width: 1300px;
+    padding-block: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+#nav-list ul {
+    color: white;
+    font-size: 13px;
+    font-weight: 400;
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+#nav-btn{
+
+} 
+
+#download-section{
+    padding-block: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(20, 18, 11);
+}
+
+#hero-box{
+    max-width: 1300px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+}
+
+#hero-text{
+    width: 650px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    margin-bottom: 2rem;
+}
+
+#hero-text h1{
+    font-size: 26px;
+    color: white;
+    font-weight: 400;
+    text-wrap: balance;
+    margin-bottom: 20px;
+}
+
+#trustedby{
+    background-color: rgb(20, 18, 11);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+#trustedby p{
+ color: white;
+}
+
+#trustedby div{
+    max-width: 1300px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 0.4rem;
+}
+#trustedby span{
+    background-color: #1b1913;
+    width: 150px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+#trustedby img{
+    width: 60px;
+    height: 40px;
+}
+
+#feature{
+    padding-top: 6rem;
+    background-color: rgb(20, 18, 11);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#feature-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 1300px;
+    gap: 5rem;
+}
+
+.feature-container{
+    width: 1300px;
+    height: 715px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#review{
+    background-color: rgb(20, 18, 11);
+    padding-top: 6rem;
+}
+
+#review-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4rem;
+}
+
+#review-box h2{
+    font-size: 36px;
+    color: white;
+    font-weight: 400;
+}
+
+#try-section{
+    padding-top: 5rem;
+    background-color: rgb(20, 18, 11);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#try-on-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#try-on-box p {
+    display: block;
+    width: 100%;
+    font-size: 26px;
+    color: white;
+    text-align: left;
+    margin-bottom: 2rem;
+}
+
+#change-log{
+    padding-block: 8rem;
+    background-color: rgb(20, 18, 11);
+    display: flex;
+    align-items: center;justify-content: center;
+}
+#change-log div {
+    max-width: 1300px;
+    text-align: center;
+}
+
+#join-us{
+    padding-block: 8rem;
+}
+
+#highlights{
+    background-color: rgb(20, 18, 11);
+}
+#highlights img{
+    width: 100%;
+}
+
+
+#cto{
+    background-color: rgb(20, 18, 11);
+    padding-block: 8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+#cto h2{
+    font-size: 72px;
+    color: white;
+}
+
+a {
+    all: unset;
+    display: flex;
+    align-items: center;justify-content: center;
+    background-color: #fff;
+    color: rgb(20, 18, 11);
+    border-radius: 9999px;
+    padding: 8px 20px;
+    font-weight: 400;
+}
+
+footer {
+    background-color: rgb(20, 18, 11);
+}
+footer img {
+    width: 100%;
+}
+
+#nav-btn {
+    display: flex;
+    align-items: center;justify-content: center;
+    gap: 0.5rem;
+}
+
+#sign-in{
+    border: 0.5px solid rgba(255, 255, 255, 0.328);
+    background-color: rgb(20, 18, 11);
+    color: white;
+}
+.nav-btn{
+    font-size: 14px;
+    padding: 4px 10px;
+}
