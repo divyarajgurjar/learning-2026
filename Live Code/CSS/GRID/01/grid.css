@@ -1,0 +1,9 @@
+.container{
+display: grid;
+  grid-auto-columns: minmax(200px, auto);
+  grid-auto-rows: minmax(60px, auto);
+}
+
+div{
+    text-align: center;
+}
