@@ -24,6 +24,7 @@ const port = process.env.PORT || 8080;
 // Pool is nothing but group of connections
 // If you pick one connection out of the pool and release it
 // the pooler will keep that connection open for sometime to other clients to reuse
+
 const pool = new pg.Pool({
   host: "localhost",
   port: 5433,
@@ -37,8 +38,8 @@ const pool = new pg.Pool({
 
 const app = new express();
 app.use(cors());
-app.use(json())
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 //Making Token 
 const generateToken = async() => {
@@ -106,7 +107,7 @@ app.post('/login', async(req,res) => {
 
   const findUser = await pool.query(`SELECT * FROM users WHERE email = $1`, [email])
 
-  if(findUser.rows>0) return res.send("Invalid Email or Password")
+  if(findUser.rows.length===0) return res.send("Invalid Email or Password")
 const user = findUser.rows[0]
 const matchPass = await comparePassword(password, user)
   if(!matchPass) return res.send("Invalid Email or Password")
@@ -116,7 +117,10 @@ const matchPass = await comparePassword(password, user)
 const accessToken = await generateAccessToken({name: user.name, email: user.email})
 const refreshToken = await generateRefreshToken({email: user.email})
 
-const hashedrefreshToken = async() => await bcrypt.createHash("sha256").update(refreshToken).digest("hex")
+const hashedrefreshToken = crypto
+  .createHash("sha256")
+  .update(refreshToken)
+  .digest("hex");
 
 await pool.query("UPDATE users SET refresh_token = $1 WHERE email = $2", [hashedrefreshToken, email])
 
