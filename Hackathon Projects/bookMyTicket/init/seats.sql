@@ -5,3 +5,10 @@
  );
 INSERT INTO seats (isbooked)
 SELECT 0 FROM generate_series(1, 20);
+
+SELECT * FROM seats
+
+UPDATE seats 
+SET name = NULL , isbooked = 0
+WHERE id=1
+

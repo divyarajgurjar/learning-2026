@@ -8,9 +8,15 @@ import crypto from 'crypto'
 import {sendVerificationEmail} from './mail.js'
 import "dotenv/config"
 import bcrypt from 'bcryptjs'
+import cookieParser from "cookie-parser";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+const app = new express();
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 //.env Variables
 const secret = process.env.SECRET
@@ -36,10 +42,6 @@ const pool = new pg.Pool({
   idleTimeoutMillis: 0,
 });
 
-const app = new express();
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 //Making Token 
 const generateToken = async() => {
@@ -77,9 +79,17 @@ try {
   const addUser = await pool
   .query("INSERT INTO users(name, email, password, verification_token) VALUES ($1, $2, $3, $4)", [name, email,hashPassword, hashToken])
 
-return res.status(201).json({
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    sameSite: "strict",
+    secure: false,
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  });
+
+  res.status(201).json({
   message: "User Created",
-  reqUser
+  reqUser, 
+  acess
 })
 
 })
@@ -101,18 +111,17 @@ const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
 //Authenticate Candidate
 
 //Login Candidate
-
 app.post('/login', async(req,res) => {
   const {email, password} = req.body
 
   const findUser = await pool.query(`SELECT * FROM users WHERE email = $1`, [email])
 
-  if(findUser.rows.length===0) return res.send("Invalid Email or Password")
+if(findUser.rows.length===0) return res.status(401).json({ message: "Invalid Email or Password" });
 const user = findUser.rows[0]
 const matchPass = await comparePassword(password, user)
-  if(!matchPass) return res.send("Invalid Email or Password")
+  if(!matchPass) return res.status(401).json({ message: "Invalid Email or Password" });
 
-  if(!user.is_verified) return res.send("Please verify your email before login");
+  if(!user.is_verified) return res.status(403).json({ message: "Please verify your email before login" });
 
 const accessToken = await generateAccessToken({name: user.name, email: user.email})
 const refreshToken = await generateRefreshToken({email: user.email})
@@ -124,49 +133,94 @@ const hashedrefreshToken = crypto
 
 await pool.query("UPDATE users SET refresh_token = $1 WHERE email = $2", [hashedrefreshToken, email])
 
+res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    sameSite: "strict",
+    secure: false,
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  });
 
 res.send({
   user: {
     name: user.name,
   email: user.email
 },
-  accessToken,
-refreshToken
+  accessToken
 })
 
 })
+
+
 
 const comparePassword = async (password, user) =>{
   return bcrypt.compare(password, user.password)
 }
 
-//Generate Access Token
+
 const generateAccessToken = async (payload) =>{
   return jwt.sign(payload, secret, {expiresIn: accessExpiresIn})
 }
 
-//Generate Refresh Token
 const generateRefreshToken = async (payload) =>{
   return jwt.sign(payload, secret, {expiresIn:refreshExpiredIn})
 }
 
+const verifyToken = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  const refreshToken = req.cookies.refreshToken
 
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).send("Unauthorized");
+  }
 
+  const token = authHeader.split(" ")[1];
 
+  try {
+    const decoded = jwt.verify(token, secret);
+    req.user = decoded; 
+    next(); 
+  } catch (err) {
 
+    if (!refreshToken) {
+      return res.status(401).json({ action: "login", message: "Expired Token" });
+    }
 
+    try{
+      const refreshDecoded = jwt.verify(refreshToken, secret)
+      const newAccessToken = jwt.sign({name: refreshDecoded.name,email: refreshDecoded.email}, secret, {expiresIn: "15m"});
 
+      res.setHeader("x-access-token", newAccessToken);
+      res.setHeader("Access-Control-Expose-Headers", "x-access-token");
 
+      req.user = refreshDecoded;
+      next();
+    }catch{
+      return res.status(401).json({ action: "login" });
+    }
 
+  }
+};
 
+app.post("/logout", async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
 
+  if (refreshToken) {
+    const hashed = crypto
+      .createHash("sha256")
+      .update(refreshToken)
+      .digest("hex");
 
+    await pool.query(
+      "UPDATE users SET refresh_token = NULL WHERE refresh_token = $1",
+      [hashed]
+    );
+  }
 
+  // clear cookie
+  res.clearCookie("refreshToken");
 
-
-
-
-
+  res.send({ message: "Logged out" });
+});
 
 //Endpoints
 app.get("/", (req, res) => {
@@ -180,13 +234,14 @@ app.get("/seats", async (req, res) => {
 
 //book a seat give the seatId and your name
 
-app.put("/:id/:name", async (req, res) => {
+app.put("/:id/:name", verifyToken, async (req, res) => {
+  const conn = await pool.connect()
   try {
     const id = req.params.id;
     const name = req.params.name;
     // payment integration should be here
     // verify payment
-    const conn = await pool.connect(); // pick a connection from the pool
+    ; // pick a connection from the pool
     //begin transaction
     // KEEP THE TRANSACTION AS SMALL AS POSSIBLE
     await conn.query("BEGIN");
@@ -198,23 +253,23 @@ app.put("/:id/:name", async (req, res) => {
     const sql = "SELECT * FROM seats where id = $1 and isbooked = 0 FOR UPDATE";
     const result = await conn.query(sql, [id]);
 
-    //if no rows found then the operation should fail can't book
-    // This shows we Do not have the current seat available for booking
+
     if (result.rowCount === 0) {
       res.send({ error: "Seat already booked" });
       return;
     }
-    //if we get the row, we are safe to update
+    
     const sqlU = "update seats set isbooked = 1, name = $2 where id = $1";
-    const updateResult = await conn.query(sqlU, [id, name]); // Again to avoid SQL INJECTION we are using $1 and $2 as placeholders
-
-    //end transaction by committing
+    const updateResult = await conn.query(sqlU, [id, name]); 
     await conn.query("COMMIT");
-    conn.release(); // release the connection back to the pool (so we do not keep the connection open unnecessarily)
+    conn.release(); 
     res.send(updateResult);
   } catch (ex) {
+    if (conn) await conn.query("ROLLBACK"); 
     console.log(ex);
-    res.send(500);
+    res.sendStatus(500);
+  } finally {
+    if (conn) conn.release(); 
   }
 });
 
