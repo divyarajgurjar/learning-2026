@@ -31,15 +31,18 @@ const port = process.env.PORT || 8080;
 // If you pick one connection out of the pool and release it
 // the pooler will keep that connection open for sometime to other clients to reuse
 
+// Use an environment variable for the connection string
+const connectionString = process.env.DATABASE_URL;
+
 const pool = new pg.Pool({
-  host: "localhost",
-  port: 5433,
-  user: "postgres",
-  password: "postgres",
-  database: "sql_class_2_db",
+  connectionString: connectionString,
+  // Required for many cloud providers (like Supabase/Heroku/Render)
+  ssl: {
+    rejectUnauthorized: false
+  },
   max: 20,
-  connectionTimeoutMillis: 0,
-  idleTimeoutMillis: 0,
+  connectionTimeoutMillis: 2000, // Better to have a timeout in production
+  idleTimeoutMillis: 30000,
 });
 
 
