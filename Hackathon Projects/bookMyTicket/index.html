@@ -300,11 +300,12 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
 
   const res = await apiFetch("/seats");
 
-  if (!res) return;
-
+if (!res) {
+    console.log("User not authorized, showing login modal.");
+    return; 
+  }
 
   document.getElementById("authContainer").classList.add("hidden");
-
   const resarray = await res.json();
   const j = resarray.sort((a, b) => a.id - b.id);
 
@@ -377,7 +378,6 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     tbl.appendChild(tr);
   }
 }window.addEventListener("load", async () => {
-  updateUI(); // Set up buttons and modals immediately
   await run(); // Fetch data from the server
 }); 
     </script>
