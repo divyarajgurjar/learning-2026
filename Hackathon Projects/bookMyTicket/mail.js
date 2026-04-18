@@ -10,7 +10,9 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendVerificationEmail = async (email, token) => {
-  const url = `http://localhost:8080/verify?token=${token}`;
+
+  const baseUrl = process.env.BASE_URL || "http://localhost:8080";
+  const url = `${baseUrl}/verify?token=${token}`;
   
   await transporter.sendMail({
     from: '"Cinema Admin" <admin@cinema.com>',
