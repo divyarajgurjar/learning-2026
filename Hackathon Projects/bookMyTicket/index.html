@@ -95,7 +95,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
   errorBox.classList.add("hidden");
 
   try {
-    const res = await fetch("http://localhost:8080/login", {
+    const res = await fetch("/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -227,12 +227,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
   }
 }
 
-
-window.addEventListener("load", updateUI);
-
-
-
-      async function logout() {
+    async function logout() {
   try {
   
     await fetch("/logout", {
