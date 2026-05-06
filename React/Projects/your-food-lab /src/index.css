@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Cormorant Garamond", serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  
+  --color-brand-cream: #FCF8F3;
+  --color-brand-accent: #E68A44;
+  --color-brand-dark: #1A1A1A;
+}
+
+body {
+  @apply bg-brand-cream text-brand-dark font-sans antialiased;
+}
+
+.shadow-forward {
+  text-shadow: 2px 2px 0px rgba(0,0,0,0.1), 4px 4px 0px rgba(0,0,0,0.05);
+}
+
+.recipe-card-shadow {
+  box-shadow: 0 10px 30px -10px rgba(230, 138, 68, 0.1);
+}
+
+.gradient-bg {
+  background: radial-gradient(circle at top right, rgba(252, 211, 172, 0.3) 0%, transparent 60%);
+}

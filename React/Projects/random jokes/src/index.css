@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #05050A;
+  --color-glass-surface: rgba(255, 255, 255, 0.05);
+  --color-glass-border: rgba(255, 255, 255, 0.2);
+  --color-glass-highlight: rgba(255, 255, 255, 0.1);
+  --color-text-main: #FFFFFF;
+  --color-text-muted: #94A3B8;
+  --color-ray-1: #8B5CF6;
+  --color-ray-2: #6D28D9;
+
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+
+  --radius-card: 32px;
+  --radius-button: 9999px;
+
+  --blur-glass: 24px;
+  --shadow-glass: 0 24px 48px -12px rgba(0, 0, 0, 0.5);
+}
+
+@layer utilities {
+  .glass-card {
+    background: var(--color-glass-surface);
+    backdrop-filter: blur(var(--blur-glass));
+    border: 1px solid var(--color-glass-border);
+    box-shadow: var(--shadow-glass);
+  }
+
+  .glass-button {
+    background: var(--color-glass-highlight);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--color-glass-border);
+    transition: all 0.2s ease;
+  }
+
+  .glass-button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+  }
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text-main);
+  font-family: var(--font-body);
+  overflow: hidden;
+}
