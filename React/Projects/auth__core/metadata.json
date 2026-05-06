@@ -1,0 +1,6 @@
+{
+  "name": "AUTH//CORE",
+  "description": "A high-security, neo-brutalist authentication portal powered by FreeAPI.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
