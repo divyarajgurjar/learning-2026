@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1 Million Checkboxes</title>
+    <style>
+        body{
+            background-color: black;
+            color: white;
+        }
+
+        body {
+  background-color: #0a0a0a;
+  color: #e0e0e0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  font-weight: 300;
+  letter-spacing: -1px;
+  margin-bottom: 2rem;
+  color: #ffffff;
+}
+
+#container {
+  display: grid;
+  /* Creates a responsive grid of squares */
+  grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+  gap: 4px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+input[type="checkbox"]:hover {
+  background-color: #252525;
+  border-color: #444;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #c8c802;
+  border-color: #c8c802;
+  box-shadow: 0 0 10px rgba(155, 247, 16, 0.4);
+}
+
+/* Optional: Subtle animation when clicking */
+input[type="checkbox"]:active {
+  transform: scale(0.9);
+}
+
+    </style>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <h1>1 Million Checkboxes</h1>
+    <div id="container">
+
+    </div>
+    <script>
+        const socket = io()
+        const container = document.getElementById('container')
+        const CHECKBOXES_COUNT = 10000
+
+        socket.on('server:checkbox:change', data =>{
+            console.log('Socket Server Event', data)
+            const {index, checked} = data
+
+            const input = document.getElementById(`checkbox-${index}`)
+
+            if(input){
+                input.checked = checked
+            }
+        })
+
+        window.addEventListener('load', async () =>{
+            const response = await fetch('/checkboxes', {method: 'GET'})
+            const data = await response.json()
+            if(data && data.checkboxes){
+                data.checkboxes.forEach((checked, index) =>{
+                    const input = document.createElement('input')
+                    input.type = 'checkbox'
+                    input.id = `checkbox-${index}`
+                    input.checked = checked
+
+                    input.addEventListener('change', (event) =>{
+                        const checked = event.target.checked
+                        console.log('Checkbox changed', {index, checked})
+                        socket.emit('client:checkbox:change', {index,checked})
+                    })
+            container.appendChild(input)
+                })
+            }
+        })
+    </script>
+</body>
+</html>

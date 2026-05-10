@@ -1,0 +1,28 @@
+{
+  "name": "checkboxes_websockets",
+  "version": "1.0.0",
+  "description": "The folder includes 1 million checkboxes assignment with web sockets",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+  "start": "node index.js",
+  "dev": "nodemon index.js"
+},
+  "keywords": [
+    "web",
+    "sockets",
+    "checkboxes",
+    "1million"
+  ],
+  "author": "Divya Raj Singh",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1",
+    "ioredis": "^5.10.1",
+    "nodemon": "^3.1.14"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.6.0"
+  }
+}
